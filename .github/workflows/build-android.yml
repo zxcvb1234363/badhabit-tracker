@@ -23,7 +23,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt update
-        sudo apt install -y python3-pip python3-setuptools git zip unzip openjdk-8-jdk
+        sudo apt install -y python3-pip python3-setuptools git zip unzip openjdk-11-jdk
     
     - name: Install Python dependencies
       run: |
@@ -34,16 +34,13 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.buildozer
-        key: ${{ runner.os }}-buildozer-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-buildozer-${{ hashFiles('**/buildozer.spec') }}
         restore-keys: |
           ${{ runner.os }}-buildozer-
     
     - name: Build APK
       run: |
         buildozer android debug
-      env:
-        ANDROIDSDK: /usr/local/android-sdk
-        ANDROIDNDK: /usr/local/android-ndk
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
