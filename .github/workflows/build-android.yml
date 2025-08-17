@@ -38,9 +38,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildozer-
     
+    - name: Install specific NDK version
+      run: |
+        echo "y" | sdkmanager "ndk;27.3.13750724"
+        echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/27.3.13750724" >> $GITHUB_ENV
+        echo "ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/27.3.13750724" >> $GITHUB_ENV
+
     - name: Build APK
       run: |
-        buildozer android debug
+        buildozer -v android debug
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
